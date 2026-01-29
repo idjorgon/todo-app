@@ -231,7 +231,7 @@ jobs:
       - name: Attest test results
         uses: actions/attest-build-provenance@v1
         with:
-          subject-path: 'test-results-summary/'
+          subject-path: 'test-results-summary/summary.txt'
 
   build-backend:
     name: Build Backend Artifact
@@ -291,6 +291,19 @@ jobs:
         working-directory: ./frontend
         run: npm run build
 
+      - name: Create build manifest
+        run: |
+          echo "Frontend Build Manifest" > frontend/build/BUILD_MANIFEST.txt
+          echo "======================" >> frontend/build/BUILD_MANIFEST.txt
+          echo "" >> frontend/build/BUILD_MANIFEST.txt
+          echo "Workflow Run: ${{ github.run_id }}" >> frontend/build/BUILD_MANIFEST.txt
+          echo "Commit SHA: ${{ github.sha }}" >> frontend/build/BUILD_MANIFEST.txt
+          echo "Branch: ${{ github.ref_name }}" >> frontend/build/BUILD_MANIFEST.txt
+          echo "Build Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> frontend/build/BUILD_MANIFEST.txt
+          echo "" >> frontend/build/BUILD_MANIFEST.txt
+          echo "Build Artifacts:" >> frontend/build/BUILD_MANIFEST.txt
+          ls -lh frontend/build/ >> frontend/build/BUILD_MANIFEST.txt
+
       - name: Upload frontend artifact
         uses: actions/upload-artifact@v4
         id: frontend-artifact
@@ -303,4 +316,4 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: actions/attest-build-provenance@v1
         with:
-          subject-path: 'frontend/build/'
+          subject-path: 'frontend/build/BUILD_MANIFEST.txt'
