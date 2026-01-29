@@ -1,0 +1,24 @@
+# Example terraform.tfvars file
+# Copy this to terraform.tfvars and update with your values
+
+aws_region         = "us-east-1"
+environment        = "dev"
+app_name           = "todo-app"
+vpc_cidr           = "10.0.0.0/16"
+availability_zones = ["us-east-1a", "us-east-1b"]
+
+# Docker images (update with your registry)
+backend_image  = "your-registry/todo-backend:latest"
+frontend_image = "your-registry/todo-frontend:latest"
+
+# Resource sizing
+backend_cpu    = 512
+backend_memory = 1024
+frontend_cpu   = 256
+frontend_memory = 512
+
+# Secrets (use AWS Secrets Manager or environment variables in production)
+jwt_secret = "change-this-to-a-secure-random-string-minimum-256-bits"
+
+# Optional: ACM certificate ARN for HTTPS
+# certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/..."
