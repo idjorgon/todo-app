@@ -160,9 +160,92 @@ REACT_APP_API_URL=http://localhost:8080
 
 ## CI/CD Pipeline
 
-GitHub Actions workflow includes:
-- Build and test backend
-- Build and test frontend
+Automated GitHub Actions workflow (`.github/workflows/ci-cd.yml`) with three main jobs:
+
+### Current Pipeline
+
+1. **Backend Tests** (JUnit + Maven)
+   - Unit tests with Mockito
+   - Integration tests with Spring Test
+   - Code coverage reporting with JaCoCo
+   
+2. **Frontend Tests** (Jest + ESLint)
+   - Linting with ESLint
+   - Unit tests with React Testing Library
+   - Code coverage reporting
+   
+3. **E2E Tests** (Playwright)
+   - Full user flow testing
+   - Automated browser testing
+   - Test artifact uploads
+
+**Triggers**: Push/PR to `main` or `develop` branches, manual workflow dispatch
+
+### Suggested Enhancements
+
+#### Short Term (Easy Wins)
+- [ ] **Branch Protection Rules** - Require PR reviews and passing tests before merge
+- [ ] **Build Caching** - Cache Maven/npm dependencies to speed up builds (~30-50% faster)
+- [ ] **Parallel Job Execution** - Run backend and frontend tests in parallel
+- [ ] **Status Badges** - Add workflow status badges to README
+- [ ] **Test Reports** - Publish test results as GitHub Actions summaries
+- [ ] **Slack/Discord Notifications** - Alert team on build failures
+
+#### Medium Term (Quality & Security)
+- [ ] **Code Quality Gates** - Add SonarCloud or CodeClimate integration
+- [ ] **Security Scanning** - Implement Snyk, Trivy, or OWASP Dependency Check
+- [ ] **Performance Testing** - Add JMeter or k6 load tests
+- [ ] **Database Migrations** - Add Flyway/Liquibase migration validation
+- [ ] **Environment Deployments** - Deploy to dev/staging on branch pushes
+- [ ] **Semantic Versioning** - Auto-generate version numbers and changelogs
+
+#### Long Term (Production Ready)
+- [ ] **Docker Image Publishing** - Push to GitHub Container Registry or Docker Hub
+- [ ] **Multi-Environment Deployments** - dev → staging → production pipeline
+- [ ] **Infrastructure as Code** - Terraform plan/apply automation for AWS
+- [ ] **Smoke Tests** - Post-deployment health checks
+- [ ] **Rollback Strategy** - Automated rollback on failed deployments
+- [ ] **Blue-Green Deployments** - Zero-downtime deployment strategy
+- [ ] **Monitoring Integration** - Datadog, New Relic, or CloudWatch alerts
+- [ ] **Feature Flags** - LaunchDarkly or similar for controlled rollouts
+
+#### Advanced (Enterprise Scale)
+- [ ] **Multi-Region Deployments** - Global CDN and geo-distributed services
+- [ ] **Chaos Engineering** - Automated resilience testing
+- [ ] **Contract Testing** - Pact or Spring Cloud Contract for API contracts
+- [ ] **Compliance Checks** - SOC2, HIPAA, GDPR validation gates
+- [ ] **Artifact Scanning** - Binary vulnerability scanning
+- [ ] **Scheduled Testing** - Nightly regression test runs
+
+## Getting Started with GitHub
+
+### Initial Setup
+
+1. **Create GitHub Repository**
+   ```bash
+   # Initialize git
+   git init
+   git add .
+   git commit -m "Initial commit: Full-stack todo app"
+   
+   # Add remote (replace YOUR-USERNAME)
+   git remote add origin https://github.com/YOUR-USERNAME/todo-app.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+2. **Verify Workflow**
+   - Navigate to the **Actions** tab in your GitHub repository
+   - Watch the CI/CD pipeline execute automatically
+   - All tests should pass on first run (no secrets required)
+
+3. **Enable Branch Protection** (Recommended)
+   - Go to Settings → Branches → Add rule
+   - Branch name pattern: `main`
+   - Enable: "Require status checks to pass before merging"
+   - Select: `backend-test`, `frontend-test`, `e2e-test`
+
+For detailed E2E testing instructions, see [E2E_TESTING_GUIDE.md](E2E_TESTING_GUIDE.md)
 
 ## Security Features
 
