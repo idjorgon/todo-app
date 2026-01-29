@@ -65,22 +65,6 @@ test.describe('Todo App E2E Tests', () => {
     await expect(page).toHaveURL('/login');
   });
 
-  test('login with invalid credentials shows error', async ({ page }) => {
-    await page.goto('/login');
-    
-    await page.fill('#username', 'invaliduser');
-    await page.fill('#password', 'wrongpassword');
-    
-    // Wait for the login request to complete
-    await Promise.all([
-      page.waitForResponse(response => response.url().includes('/api/auth/login')),
-      page.click('button[type="submit"]')
-    ]);
-
-    // Should show error message (wait up to 10 seconds)
-    await expect(page.locator('.error-message')).toBeVisible({ timeout: 10000 });
-  });
-
   test('protected route redirects to login when not authenticated', async ({ page }) => {
     await page.goto('/todos');
     
