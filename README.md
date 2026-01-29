@@ -163,9 +163,6 @@ REACT_APP_API_URL=http://localhost:8080
 GitHub Actions workflow includes:
 - Build and test backend
 - Build and test frontend
-- Run security scans
-- Build Docker images
-- Deploy to AWS (manual trigger)
 
 ## Security Features
 
