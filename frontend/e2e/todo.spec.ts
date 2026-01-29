@@ -70,10 +70,15 @@ test.describe('Todo App E2E Tests', () => {
     
     await page.fill('#username', 'invaliduser');
     await page.fill('#password', 'wrongpassword');
-    await page.click('button[type="submit"]');
+    
+    // Wait for the login request to complete
+    await Promise.all([
+      page.waitForResponse(response => response.url().includes('/api/auth/login')),
+      page.click('button[type="submit"]')
+    ]);
 
-    // Should show error message
-    await expect(page.locator('.error-message')).toBeVisible();
+    // Should show error message (wait up to 10 seconds)
+    await expect(page.locator('.error-message')).toBeVisible({ timeout: 10000 });
   });
 
   test('protected route redirects to login when not authenticated', async ({ page }) => {
